@@ -28,6 +28,7 @@ type PlayerType = {
 
 const Game = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [isReady, setIsReady] = useState(false);
   const animationFrameRef = useRef<number>(0);
   const obstaclesRef = useRef<ObstacleType[]>([]);
   const speed_multiplier = useRef(1);
@@ -179,7 +180,7 @@ const Game = () => {
 
 
   useEffect(() => {
-    if (!canvasRef.current) return;
+    if (!canvasRef.current || !isReady) return;
     const canvas = canvasRef.current;
     canvas.style.background = '#000000';
     const ctx = canvas.getContext('2d');
@@ -193,8 +194,19 @@ const Game = () => {
       window.cancelAnimationFrame(animationFrameRef.current);
       window.addEventListener('touchstart', jump);
     };
+  }, [isReady]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsReady(true);
+    }, 5000);
+    return () => {
+      clearTimeout(timer);
+    };
   }, []);
 
-  return <canvas ref={canvasRef} width={window.innerWidth} height={window.innerHeight} />;
+
+
+  return isReady ? <canvas ref={canvasRef} width={window.innerWidth} height={window.innerHeight} /> : null;
 };
 export default Game;
