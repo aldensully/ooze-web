@@ -6,9 +6,8 @@ import reportWebVitals from './extras/reportWebVitals';
 import { sendToVercelAnalytics } from './extras/vitals';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <App />
+  ,
   document.getElementById('root')
 );
 
