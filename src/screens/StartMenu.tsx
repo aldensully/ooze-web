@@ -12,7 +12,9 @@ function StartMenu() {
         alert(`Error attempting to enable full-screen mode: ${e.message} (${e.name})`);
       })
         .then(() => {
-          setGameState('game');
+          setTimeout(() => {
+            setGameState('game');
+          }, 1000);
         });
 
     } else {
