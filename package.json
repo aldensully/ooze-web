@@ -38,5 +38,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "resolutions": {
+    "@typescript-eslint/eslint-plugin": "your typescript eslint version",
+    "@typescript-eslint/parser": "your typescript eslint version"
   }
 }
