@@ -7,7 +7,19 @@ function StartMenu() {
   const setGameState = useGameStore(state => state.setGameState);
 
   const handleClick = () => {
-    setGameState('game');
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch((e) => {
+        alert(`Error attempting to enable full-screen mode: ${e.message} (${e.name})`);
+      })
+        .then(() => {
+          setGameState('game');
+        });
+
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    }
   };
 
   return (
