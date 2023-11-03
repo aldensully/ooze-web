@@ -42,6 +42,5 @@ body {
   -ms-user-select: none;
   /* Internet Explorer/Edge */
   user-select: none;
-  background-color: #000;
   /* Non-prefixed version, currently supported by Chrome, Opera and Edge */
 }

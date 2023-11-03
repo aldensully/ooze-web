@@ -174,7 +174,7 @@ const GameWithCustomTime = () => {
 
     // Draw score
     ctx.fillStyle = '#FFEB2C';
-    ctx.fillText(`${Math.floor(scoreRef.current / 100)}`, 320, 55);
+    ctx.fillText(`${Math.floor(scoreRef.current / 100)}`, 320, 54);
     ctx.drawImage(
       oozeMeter.current,
       160,
@@ -210,7 +210,7 @@ const GameWithCustomTime = () => {
     window.cancelAnimationFrame(animationFrameRef.current);
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
-    ctx.font = '45px Arial';
+    ctx.font = '40px Arial';
   }
 
   function initializeScene() {
@@ -218,7 +218,6 @@ const GameWithCustomTime = () => {
     const canvas = canvasRef.current;
     canvas.style.background = '#000000';
     const ctx = canvas.getContext('2d');
-    ctx.font = '30px Arial';
     playerImage.current.src = '/sprites/dude.png';
     oozeMeter.current.src = '/sprites/ooze-meter.png';
   }
