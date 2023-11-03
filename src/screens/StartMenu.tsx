@@ -15,42 +15,26 @@ function StartMenu() {
 
 
   const handleClick = (e: any) => {
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen({
-        navigationUI: 'hide'
-      }).catch((e) => {
-        alert(`Error attempting to enable full-screen mode: ${e.message} (${e.name})`);
-      })
-        .then(() => {
-          setGameState('game');
-        });
-
+    e.preventDefault();
+    if (!isLandscape()) {
+      setShowStartAlert(false);
+      setShowLandscapeAlert(true);
     } else {
-      setGameState('game');
+      handleFullScreen();
     }
-    // if (!isLandscape()) {
-    //   setShowStartAlert(false);
-    //   setShowLandscapeAlert(true);
-    // } else {
-    //   handleFullScreen();
-    // }
   };
 
   function handleFullScreen() {
     setShowLandscapeAlert(false);
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen({
-        navigationUI: 'hide'
-      }).catch((e) => {
-        alert(`Error attempting to enable full-screen mode: ${e.message} (${e.name})`);
-      })
-        .then(() => {
-          setGameState('game');
-        });
-
-    } else {
-      setGameState('game');
-    }
+    document.body.requestFullscreen({
+      navigationUI: 'hide'
+    }).catch((e) => {
+      alert(`Error attempting to enable full-screen mode: ${e.message} (${e.name})`);
+    })
+      .then(() => {
+        setGameState('game');
+      });
+    setGameState('game');
   }
 
   const handleResize = () => {
