@@ -5,7 +5,7 @@ const PLAYER_WIDTH = 25;
 const PLAYER_HEIGHT = 65;
 const OBSTACLE_WIDTH = 25;
 const OBSTACLE_HEIGHT = 30;
-const OBSTACLE_SPEED = 7;
+const OBSTACLE_SPEED = 50;
 
 type ObstacleType = {
   x: number;
@@ -24,9 +24,9 @@ type PlayerType = {
 let x1 = 0; // initial position of first image
 let x2 = window.innerWidth;
 
-const Game = () => {
+const GameWithCustomTime = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const animationFrameRef = useRef<number>(0);
+  const animationFrameRef = useRef<number>(new Date().getTime());
   const obstaclesRef = useRef<ObstacleType[]>([]);
   const speed_multiplier = useRef(1);
   const nextObstacleTimeRef = useRef<number>(Date.now() + randomInterval());
@@ -46,8 +46,8 @@ const Game = () => {
   const SCREEN_WIDTH = window.innerWidth;
   const SCREEN_HEIGHT = window.innerHeight;
   const GROUND_Y = SCREEN_HEIGHT * 0.9;
-  const gravity = useRef(1.2);
-  const jumpForce = useRef(-17);
+  const gravity = useRef(25);
+  const jumpForce = useRef(-70);
 
   const playerRef = useRef<PlayerType>({
     x: SCREEN_WIDTH / 3 - PLAYER_WIDTH / 2,
@@ -93,113 +93,102 @@ const Game = () => {
     }
   };
 
-  const gameLoop = () => {
-    if (!canvasRef.current) return;
-    const ctx = canvasRef.current?.getContext('2d');
-    if (!ctx) return;
-    ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-
-    //draw floor
-    ctx.fillStyle = '#121212';
-    ctx.fillRect(0, GROUND_Y, window.innerWidth, (window.innerHeight - GROUND_Y));
-
-
-
-    // Apply gravity only if the player is airborne
+  function updateGame(deltaTime: number) {
+    // Apply gravity and jump physics
     if (playerRef.current.y < GROUND_Y) {
-      playerRef.current.vy += gravity.current;
+      playerRef.current.vy += gravity.current * deltaTime;
     }
-
-    // Update player's Y position
-    playerRef.current.y += playerRef.current.vy;
-
-    // Collision with the ground
+    playerRef.current.y += playerRef.current.vy * deltaTime;
     if (playerRef.current.y > GROUND_Y) {
       playerRef.current.y = GROUND_Y;
-      playerRef.current.vy = 0; // Stop the falling movement by resetting velocity
+      playerRef.current.vy = 0;
       isJumpingRef.current = false;
       jumpCount.current = 0;
     }
 
-    // Draw player
-    // ctx.fillStyle = 'blue';
-    // ctx.fillRect(
-    //   playerRef.current.x,
-    //   playerRef.current.y - PLAYER_HEIGHT,
-    //   PLAYER_WIDTH,
-    //   PLAYER_HEIGHT
-    // );
-    ctx.drawImage(
-      playerImage.current,  // The image element
-      playerRef.current.x,
-      playerRef.current.y - PLAYER_HEIGHT,
-      PLAYER_WIDTH,     // The width of the image to draw
-      PLAYER_HEIGHT     // The height of the image to draw
-    );
+    // Update obstacles
+    obstaclesRef.current.forEach(obstacle => {
+      obstacle.x -= OBSTACLE_SPEED * speed_multiplier.current * deltaTime;
+    });
 
-    // Update and draw obstacles
+    // Remove off-screen obstacles
+    obstaclesRef.current = obstaclesRef.current.filter(obstacle => obstacle.x + obstacle.width > 0);
+
+    // Check for collisions
     for (const obstacle of obstaclesRef.current) {
-      obstacle.x -= OBSTACLE_SPEED * speed_multiplier.current;
-
-      ctx.drawImage(
-        obstacle.sprite,  // The image element
-        obstacle.x - 20, obstacle.y - 20, obstacle.width + 20, obstacle.height + 20
-      );
       if (checkCollision(playerRef.current, obstacle)) {
         setGameState('end');
         setScore(Math.floor(scoreRef.current / 100));
-        window.cancelAnimationFrame(animationFrameRef.current);
-        return;
+        return false; // Collision detected, stop updating
       }
     }
 
-    // Remove off-screen obstacles
-    obstaclesRef.current = obstaclesRef.current.filter(
-      (obstacle) => obstacle.x + obstacle.width > 0
-    );
-
-    //INCREMENT SCORE
-    scoreRef.current++;
-
-
-
-    // Update image positions
-    x1 -= OBSTACLE_SPEED * 0.5;
-    x2 -= OBSTACLE_SPEED * 0.5;
-
-    // If the first image is completely off screen
-    if (x1 < -window.innerWidth) {
-      x1 = window.innerWidth;
-    }
-    // If the second image is completely off screen
-    if (x2 < -window.innerWidth) {
-      x2 = window.innerWidth;
-    }
-
-
-
-    //SPAWN OBSTACLES 
+    // Handle obstacle spawning
     const now = Date.now();
     if (now >= nextObstacleTimeRef.current) {
       spawnObstacle();
-      // Calculate the next spawn time, adjusting for the speed multiplier
       nextObstacleTimeRef.current = now + randomInterval();
     }
 
+    // Increment score
+    scoreRef.current += 1;
+
+    // Speed and gravity scaling
     if (scoreRef.current % 300 === 0) {
       speed_multiplier.current += 0.05;
       gravity.current += 0.15;
       jumpForce.current -= 1;
     }
 
-    // Draw the score
-    ctx.fillStyle = 'white';
-    const score = Math.floor(scoreRef.current / 100);
-    ctx.fillText(`Score: ${score}`, 120, 30);
+    return true;
+  }
 
-    // Continue the game loop
-    animationFrameRef.current = requestAnimationFrame(gameLoop);
-  };
+  function drawGame() {
+    const ctx = canvasRef.current?.getContext('2d');
+    if (!ctx) return;
+
+    ctx.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+    // Draw ground
+    ctx.fillStyle = '#121212';
+    ctx.fillRect(0, GROUND_Y, SCREEN_WIDTH, SCREEN_HEIGHT - GROUND_Y);
+
+    // Draw player
+    ctx.drawImage(
+      playerImage.current,
+      playerRef.current.x,
+      playerRef.current.y - PLAYER_HEIGHT,
+      PLAYER_WIDTH,
+      PLAYER_HEIGHT
+    );
+
+    // Draw obstacles
+    obstaclesRef.current.forEach(obstacle => {
+      ctx.drawImage(
+        obstacle.sprite,
+        obstacle.x - 20, obstacle.y - 20,
+        obstacle.width + 20, obstacle.height + 20
+      );
+    });
+
+    // Draw score
+    ctx.fillStyle = 'white';
+    ctx.fillText(`Score: ${Math.floor(scoreRef.current / 100)}`, 120, 30);
+  }
+
+  function gameLoop(timestamp: number) {
+    const deltaTime = timestamp - (animationFrameRef.current || timestamp);
+    animationFrameRef.current = timestamp;
+
+    if (updateGame(deltaTime / 100)) {
+      drawGame();
+      requestAnimationFrame(gameLoop);
+    } else {
+      // Handle end game logic here, e.g., cancel the animation frame if needed
+      window.cancelAnimationFrame(animationFrameRef.current);
+    }
+  }
+
 
   const checkCollision = (player: PlayerType, obs: ObstacleType) => {
     return (
@@ -211,7 +200,6 @@ const Game = () => {
 
   function resetGame() {
     window.cancelAnimationFrame(animationFrameRef.current);
-    animationFrameRef.current = requestAnimationFrame(gameLoop);
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
     ctx.font = '30px Arial';
@@ -244,15 +232,16 @@ const Game = () => {
 
   useEffect(() => {
     initializeScene();
-    animationFrameRef.current = requestAnimationFrame(gameLoop);
+    resetGame(); // Setup game state
+    animationFrameRef.current = requestAnimationFrame(gameLoop); // Start the loop
     window.addEventListener('touchstart', jump);
 
     return () => {
       window.cancelAnimationFrame(animationFrameRef.current);
-      window.addEventListener('touchstart', jump);
+      window.removeEventListener('touchstart', jump);
     };
   }, []);
 
   return <canvas ref={canvasRef} id='canvas' width={window.innerWidth} height={window.innerHeight} />;
 };
-export default Game;
+export default GameWithCustomTime;

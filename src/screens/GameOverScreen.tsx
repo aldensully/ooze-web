@@ -26,7 +26,7 @@ const GameOverScreen = () => {
     }, 2500);
     const timer3 = setTimeout(() => {
       setShowDrowned(true);
-    }, 3200);
+    }, 500);
     const timer4 = setTimeout(() => {
       setShowRestartButton(true);
     }, 4000);
@@ -59,7 +59,7 @@ const GameOverScreen = () => {
       }
       {showDrowned && <img
         onClick={() => setGameState('game')}
-        style={{ position: 'absolute', right: 0, zIndex: 1600, top: 0 }}
+        style={{ position: 'absolute', right: 0, zIndex: 4600, top: 0 }}
         src='/alerts/start-over-alert.png'
         width={'auto'} height={height * 0.4}
       />

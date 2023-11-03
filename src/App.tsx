@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import StartMenu from './screens/StartMenu';
 import GameOverScreen from './screens/GameOverScreen';
 import useGameStore from './stores/useGameStore';
+import GameWithCustomTime from './screens/GameWithCustomTime';
 
 function App() {
   const gameState = useGameStore(state => state.gameState);
@@ -34,7 +35,7 @@ function App() {
     <div className="App">
       <body style={{ backgroundColor: '#000', height, width }}>
         {gameState === 'start' && <StartMenu />}
-        {gameState === 'game' && <Game />}
+        {gameState === 'game' && <GameWithCustomTime />}
         {gameState === 'end' && <GameOverScreen />}
       </body>
     </div>
