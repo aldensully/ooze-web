@@ -48,7 +48,7 @@ const Game = () => {
   const SCREEN_WIDTH = window.innerWidth;
   const SCREEN_HEIGHT = window.innerHeight;
   const GROUND_Y = SCREEN_HEIGHT * 0.9;
-  const gravity = useRef(1.4);
+  const gravity = useRef(1.2);
   const jumpForce = useRef(-17);
 
   const playerRef = useRef<PlayerType>({
