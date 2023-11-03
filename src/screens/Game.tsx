@@ -229,9 +229,6 @@ const Game = () => {
   function resizeCanvas() {
     canvasRef.current.width = window.innerWidth;
     canvasRef.current.height = window.innerHeight;
-    document.body.requestFullscreen().catch((e) => {
-      alert(`Error attempting to enable full-screen mode: ${e.message} (${e.name})`);
-    });
     resetGame();
   }
 
