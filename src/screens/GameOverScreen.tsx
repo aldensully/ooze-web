@@ -7,7 +7,7 @@ const GameOverScreen = () => {
   const setGameState = useGameStore(state => state.setGameState);
 
   return (
-    <div style={{ width, height, backgroundColor: '#000' }}>
+    <div style={{ width, height, backgroundColor: '#EBFF00' }}>
       <div style={{ display: 'flex', flexDirection: 'column', flex: 1, height: '100%', alignItems: 'center', justifyContent: 'center' }}>
         <p style={{ color: '#fff', fontSize: 32 }}>GAME OVER</p>
         <button

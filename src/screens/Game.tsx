@@ -48,7 +48,7 @@ const Game = () => {
   const scoreRef = useRef(0);
   const isJumpingRef = useRef(false);
   const jumpCount = useRef(0);
-  const maxJumps = useRef(2);
+  const maxJumps = useRef(1);
 
   function randomInterval() {
     // Define base min and max intervals
@@ -88,25 +88,9 @@ const Game = () => {
     if (!ctx) return;
     ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
 
-    //draw background
-    ctx.drawImage(
-      bg1Image.current,  // The image element
-      x1,
-      0,
-      window.innerWidth,     // The width of the image to draw
-      window.innerHeight     // The height of the image to draw
-    );
-    ctx.drawImage(
-      bg1Image.current,  // The image element
-      x2,
-      0,
-      window.innerWidth,     // The width of the image to draw
-      window.innerHeight     // The height of the image to draw
-    );
-
     //draw floor
     ctx.fillStyle = '#121212';
-    ctx.fillRect(0, GROUND_Y - 5, SCREEN_WIDTH, (SCREEN_HEIGHT - GROUND_Y) + 5);
+    ctx.fillRect(0, GROUND_Y - 5, SCREEN_WIDTH, (SCREEN_HEIGHT - GROUND_Y));
 
 
 
@@ -150,7 +134,7 @@ const Game = () => {
       // ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
       ctx.drawImage(
         oozeImage.current,  // The image element
-        obstacle.x - 10, obstacle.y - 10, obstacle.width + 20, obstacle.height + 20
+        obstacle.x, obstacle.y, obstacle.width + 20, obstacle.height + 20
       );
       if (checkCollision(playerRef.current, obstacle)) {
         setGameState('end');
