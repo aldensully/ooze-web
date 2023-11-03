@@ -43,8 +43,6 @@ const Game = () => {
     img.src = src;
     return img;
   });
-  const bg1Image = useRef(new Image());
-  const bg2Image = useRef(new Image());
   const SCREEN_WIDTH = window.innerWidth;
   const SCREEN_HEIGHT = window.innerHeight;
   const GROUND_Y = SCREEN_HEIGHT * 0.9;
@@ -225,14 +223,15 @@ const Game = () => {
     canvas.style.background = '#000000';
     const ctx = canvas.getContext('2d');
     ctx.font = '30px Arial';
-
     playerImage.current.src = '/sprites/dude.png';
-    bg1Image.current.src = '/sprites/ooze-bg-far.png';
   }
 
   function resizeCanvas() {
     canvasRef.current.width = window.innerWidth;
     canvasRef.current.height = window.innerHeight;
+    document.body.requestFullscreen().catch((e) => {
+      alert(`Error attempting to enable full-screen mode: ${e.message} (${e.name})`);
+    });
     resetGame();
   }
 
