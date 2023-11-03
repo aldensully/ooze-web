@@ -9,7 +9,7 @@ type GameStoreType = {
 };
 
 const useGameStore = create<GameStoreType>((set) => ({
-  gameState: 'start',
+  gameState: 'end',
   setGameState: (gameState) => set({ gameState }),
   score: 0,
   setScore: (score) => set({ score })

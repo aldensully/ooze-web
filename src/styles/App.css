@@ -8,6 +8,30 @@ canvas {
   height: 100%;
 }
 
+@keyframes flash {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+body {
+  overflow: hidden;
+}
+
+.flashing-image {
+  animation: flash 1s infinite;
+}
+
+.flashing-image-2 {
+  animation: flash 0.7s infinite;
+}
+
 * {
   -webkit-user-select: none;
   /* Safari */

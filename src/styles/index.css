@@ -54,6 +54,10 @@ canvas {
   height: 100%;
 }
 
+body {
+  overflow: hidden;
+}
+
 * {
   -webkit-user-select: none;
   /* Safari */
