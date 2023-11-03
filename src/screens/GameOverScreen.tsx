@@ -120,7 +120,7 @@ function WatchScreenPopups() {
         <img
           onClick={navigateToYouTube}
           key={'image' + i}
-          style={{ maxWidth: 300, position: 'absolute', left: 20 * i, top: 20 * i }}
+          style={{ maxWidth: 500, position: 'absolute', left: 20 * i, top: 20 * i }}
           src={img}
           width={'auto'} height={window.innerHeight * 0.7}
         />
