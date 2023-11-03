@@ -185,7 +185,7 @@ const Game = () => {
     // Draw the score
     ctx.fillStyle = 'white';
     const score = Math.floor(scoreRef.current / 100);
-    ctx.fillText(`Score: ${score}`, 15, 30);
+    ctx.fillText(`Score: ${score}`, 120, 30);
 
     // Continue the game loop
     animationFrameRef.current = requestAnimationFrame(gameLoop);
