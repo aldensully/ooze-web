@@ -12,6 +12,7 @@ type ObstacleType = {
   y: number;
   width: number;
   height: number;
+  sprite: HTMLImageElement;
 };
 
 type PlayerType = {
@@ -32,14 +33,23 @@ const Game = () => {
   const setGameState = useGameStore(state => state.setGameState);
   const setScore = useGameStore(state => state.setScore);
   const playerImage = useRef(new Image());
-  const oozeImage = useRef(new Image());
+  const oozeSprites = useRef([]);
+  oozeSprites.current = [
+    '/sprites/double-ooze.png',
+    '/sprites/face-ooze.png',
+    '/sprites/poop-ooze.png',
+  ].map(src => {
+    const img = new Image();
+    img.src = src;
+    return img;
+  });
   const bg1Image = useRef(new Image());
   const bg2Image = useRef(new Image());
   const SCREEN_WIDTH = window.innerWidth;
   const SCREEN_HEIGHT = window.innerHeight;
-  const GROUND_Y = SCREEN_HEIGHT * 0.8;
-  const gravity = useRef(1.6);
-  const jumpForce = useRef(-20);
+  const GROUND_Y = SCREEN_HEIGHT * 0.9;
+  const gravity = useRef(1.4);
+  const jumpForce = useRef(-17);
 
   const playerRef = useRef<PlayerType>({
     x: SCREEN_WIDTH / 3 - PLAYER_WIDTH / 2,
@@ -66,11 +76,13 @@ const Game = () => {
 
   const spawnObstacle = () => {
     if (!canvasRef.current) return;
+    const spriteIndex = Math.floor(Math.random() * oozeSprites.current.length);
     const newObstacle: ObstacleType = {
       x: canvasRef.current?.width,
       y: GROUND_Y - OBSTACLE_HEIGHT,
       width: OBSTACLE_WIDTH,
       height: OBSTACLE_HEIGHT,
+      sprite: oozeSprites.current[spriteIndex],
     };
     obstaclesRef.current.push(newObstacle);
   };
@@ -91,7 +103,7 @@ const Game = () => {
 
     //draw floor
     ctx.fillStyle = '#121212';
-    ctx.fillRect(0, GROUND_Y - 5, window.innerWidth, (window.innerHeight - GROUND_Y));
+    ctx.fillRect(0, GROUND_Y, window.innerWidth, (window.innerHeight - GROUND_Y));
 
 
 
@@ -131,10 +143,8 @@ const Game = () => {
     for (const obstacle of obstaclesRef.current) {
       obstacle.x -= OBSTACLE_SPEED * speed_multiplier.current;
 
-      ctx.fillStyle = 'red';
-      // ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
       ctx.drawImage(
-        oozeImage.current,  // The image element
+        obstacle.sprite,  // The image element
         obstacle.x - 20, obstacle.y - 20, obstacle.width + 20, obstacle.height + 20
       );
       if (checkCollision(playerRef.current, obstacle)) {
@@ -179,8 +189,8 @@ const Game = () => {
     }
 
     if (scoreRef.current % 300 === 0) {
-      speed_multiplier.current += 0.1;
-      gravity.current += 0.1;
+      speed_multiplier.current += 0.05;
+      gravity.current += 0.15;
       jumpForce.current -= 1;
     }
 
@@ -217,7 +227,6 @@ const Game = () => {
     ctx.font = '30px Arial';
 
     playerImage.current.src = '/sprites/dude.png';
-    oozeImage.current.src = '/sprites/poop-ooze.png';
     bg1Image.current.src = '/sprites/ooze-bg-far.png';
   }
 
