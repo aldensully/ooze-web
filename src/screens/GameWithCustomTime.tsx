@@ -61,7 +61,7 @@ const GameWithCustomTime = () => {
   const maxJumps = useRef(1);
 
 
-  useEffect(() => {
+  const handlePlayAudio = () => {
     // Audio setup
     const audio = new Audio(); // Use the file path if not importing
     audio.src = '/song.mp3';
@@ -73,7 +73,7 @@ const GameWithCustomTime = () => {
 
     // Pause the music when the component unmounts
     return () => audio.pause();
-  }, []); // Empty array ensures this effect runs only once
+  };
 
 
 
@@ -105,6 +105,7 @@ const GameWithCustomTime = () => {
   };
 
   const jump = () => {
+    handlePlayAudio();
     if (jumpCount.current < maxJumps.current) {
       playerRef.current.vy = jumpForce.current;
       isJumpingRef.current = true;
