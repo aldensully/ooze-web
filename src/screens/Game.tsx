@@ -5,7 +5,7 @@ const PLAYER_WIDTH = 25;
 const PLAYER_HEIGHT = 65;
 const OBSTACLE_WIDTH = 25;
 const OBSTACLE_HEIGHT = 30;
-const GRAVITY = 1.8;
+const GRAVITY = 1.6;
 const JUMP_FORCE = -20;
 const OBSTACLE_SPEED = 7;
 
@@ -202,6 +202,9 @@ const Game = () => {
   function resetGame() {
     window.cancelAnimationFrame(animationFrameRef.current);
     animationFrameRef.current = requestAnimationFrame(gameLoop);
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    ctx.font = '30px Arial';
   }
 
   function initializeScene() {
