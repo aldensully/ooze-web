@@ -175,8 +175,8 @@ const GameWithCustomTime = () => {
     obstaclesRef.current.forEach(obstacle => {
       ctx.drawImage(
         obstacle.sprite,
-        obstacle.x - 20, obstacle.y - 20,
-        obstacle.width + 30, obstacle.height + 30
+        obstacle.x - 30, obstacle.y - 30,
+        obstacle.width + 35, obstacle.height + 35
       );
     });
 
