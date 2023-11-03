@@ -52,14 +52,14 @@ const GameOverScreen = () => {
       />
       {showDogs && <img
         onClick={navigateToYouTube}
-        style={{ maxWidth: 300, position: 'absolute', left: '30%', zIndex: 1000, top: 50 }}
+        style={{ maxWidth: 600, position: 'absolute', left: '30%', zIndex: 1000, top: 50 }}
         src='/alerts/dogs.png'
         width={'auto'} height={height * 0.5}
       />
       }
       {showDrowned && <img
         onClick={() => setGameState('game')}
-        style={{ maxWidth: 300, position: 'absolute', right: 0, zIndex: 4600, top: 0 }}
+        style={{ maxWidth: 600, position: 'absolute', right: 0, zIndex: 4600, top: 0 }}
         src='/alerts/start-over-alert.png'
         width={'auto'} height={height * 0.4}
       />
@@ -120,7 +120,7 @@ function WatchScreenPopups() {
         <img
           onClick={navigateToYouTube}
           key={'image' + i}
-          style={{ maxWidth: 500, position: 'absolute', left: 20 * i, top: 20 * i }}
+          style={{ maxWidth: 700, position: 'absolute', left: 20 * i, top: 20 * i }}
           src={img}
           width={'auto'} height={window.innerHeight * 0.7}
         />
