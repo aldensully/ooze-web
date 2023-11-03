@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import useGameStore from '../stores/useGameStore';
 
 
@@ -13,6 +13,20 @@ function StartMenu() {
     return window.innerWidth > window.innerHeight;
   }
 
+  const handlePlayAudio = () => {
+    const audio = new Audio(); // Use the file path if not importing
+    audio.src = '/song.mp3';
+    audio.loop = true; // Loop the music
+    audio.volume = 0.5; // Set the volume (0.0 to 1.0)
+
+    // Start playing when the component mounts
+    audio.play().catch(error => console.error("Audio play failed", error));
+
+    // Pause the music when the component unmounts
+    return () => audio.pause();
+  };
+
+
   const handleClick = (e: any) => {
     e.preventDefault();
     if (!isLandscape()) {
@@ -26,6 +40,7 @@ function StartMenu() {
   function handleFullScreen() {
     setShowLandscapeAlert(false);
     setGameState('game');
+    handlePlayAudio();
   }
 
   const handleResize = () => {
@@ -45,7 +60,6 @@ function StartMenu() {
     };
   }, []);
 
-
   return (
     <div style={{ width, height, backgroundColor: '#000' }}>
       <div style={{ display: 'flex', flexDirection: 'column', flex: 1, height: '100%', alignItems: 'center', justifyContent: 'center' }}>
@@ -55,5 +69,6 @@ function StartMenu() {
     </div>
   );
 }
+
 
 export default StartMenu;

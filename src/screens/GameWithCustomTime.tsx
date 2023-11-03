@@ -61,23 +61,6 @@ const GameWithCustomTime = () => {
   const maxJumps = useRef(1);
 
 
-  const handlePlayAudio = () => {
-    // Audio setup
-    const audio = new Audio(); // Use the file path if not importing
-    audio.src = '/song.mp3';
-    audio.loop = true; // Loop the music
-    audio.volume = 0.5; // Set the volume (0.0 to 1.0)
-
-    // Start playing when the component mounts
-    audio.play().catch(error => console.error("Audio play failed", error));
-
-    // Pause the music when the component unmounts
-    return () => audio.pause();
-  };
-
-
-
-
   function randomInterval() {
     // Define base min and max intervals
     const minBaseInterval = 500; // in milliseconds
@@ -105,7 +88,6 @@ const GameWithCustomTime = () => {
   };
 
   const jump = () => {
-    handlePlayAudio();
     if (jumpCount.current < maxJumps.current) {
       playerRef.current.vy = jumpForce.current;
       isJumpingRef.current = true;
