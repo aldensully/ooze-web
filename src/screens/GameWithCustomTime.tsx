@@ -47,8 +47,8 @@ const GameWithCustomTime = () => {
   const SCREEN_WIDTH = window.innerWidth;
   const SCREEN_HEIGHT = window.innerHeight;
   const GROUND_Y = SCREEN_HEIGHT * 0.9;
-  const gravity = useRef(25);
-  const jumpForce = useRef(-70);
+  const gravity = useRef(35);
+  const jumpForce = useRef(-85);
 
   const playerRef = useRef<PlayerType>({
     x: SCREEN_WIDTH / 3 - PLAYER_WIDTH / 2,
