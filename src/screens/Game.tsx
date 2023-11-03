@@ -196,6 +196,11 @@ const Game = () => {
     );
   };
 
+  function resetGame() {
+    window.cancelAnimationFrame(animationFrameRef.current);
+    animationFrameRef.current = requestAnimationFrame(gameLoop);
+  }
+
   function initializeScene() {
     if (!canvasRef.current) return;
     const canvas = canvasRef.current;
@@ -211,6 +216,8 @@ const Game = () => {
   function resizeCanvas() {
     canvasRef.current.width = window.screen.width;
     canvasRef.current.height = window.screen.height;
+    resetGame();
+
   }
 
   useEffect(() => {
