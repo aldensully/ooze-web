@@ -240,6 +240,6 @@ const Game = () => {
     };
   }, []);
 
-  return <canvas ref={canvasRef} width={window.innerWidth} height={window.innerHeight} />;
+  return <canvas ref={canvasRef} width={window.screen.width} height={window.screen.height} />;
 };
 export default Game;
