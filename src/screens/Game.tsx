@@ -209,8 +209,8 @@ const Game = () => {
   }
 
   function resizeCanvas() {
-    canvasRef.current.width = screen.width;
-    canvasRef.current.height = screen.height;
+    canvasRef.current.width = window.screen.width;
+    canvasRef.current.height = window.screen.height;
   }
 
   useEffect(() => {
