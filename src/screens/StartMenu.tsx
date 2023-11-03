@@ -15,13 +15,25 @@ function StartMenu() {
 
 
   const handleClick = (e: any) => {
-    e.preventDefault();
-    if (!isLandscape()) {
-      setShowStartAlert(false);
-      setShowLandscapeAlert(true);
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen({
+        navigationUI: 'hide'
+      }).catch((e) => {
+        alert(`Error attempting to enable full-screen mode: ${e.message} (${e.name})`);
+      })
+        .then(() => {
+          setGameState('game');
+        });
+
     } else {
-      handleFullScreen();
+      setGameState('game');
     }
+    // if (!isLandscape()) {
+    //   setShowStartAlert(false);
+    //   setShowLandscapeAlert(true);
+    // } else {
+    //   handleFullScreen();
+    // }
   };
 
   function handleFullScreen() {
