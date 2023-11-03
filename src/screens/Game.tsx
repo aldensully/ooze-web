@@ -36,8 +36,8 @@ const Game = () => {
   const oozeImage = useRef(new Image());
   const bg1Image = useRef(new Image());
   const bg2Image = useRef(new Image());
-  const SCREEN_WIDTH = window.screen.width;
-  const SCREEN_HEIGHT = window.screen.height;
+  const SCREEN_WIDTH = window.innerWidth;
+  const SCREEN_HEIGHT = window.innerHeight;
   const GROUND_Y = SCREEN_HEIGHT - 100;
 
   const playerRef = useRef<PlayerType>({
@@ -90,7 +90,7 @@ const Game = () => {
 
     //draw floor
     ctx.fillStyle = '#121212';
-    ctx.fillRect(0, GROUND_Y - 5, window.screen.width, (window.screen.height - GROUND_Y));
+    ctx.fillRect(0, GROUND_Y - 5, window.innerWidth, (window.innerHeight - GROUND_Y));
 
 
 
@@ -214,8 +214,8 @@ const Game = () => {
   }
 
   function resizeCanvas() {
-    canvasRef.current.width = window.screen.width;
-    canvasRef.current.height = window.screen.height;
+    canvasRef.current.width = window.innerWidth;
+    canvasRef.current.height = window.innerHeight;
     resetGame();
   }
 
@@ -240,6 +240,6 @@ const Game = () => {
     };
   }, []);
 
-  return <canvas ref={canvasRef} width={window.screen.width} height={window.screen.height} />;
+  return <canvas ref={canvasRef} width={window.innerWidth} height={window.innerHeight} />;
 };
 export default Game;
