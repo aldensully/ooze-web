@@ -31,10 +31,12 @@ function App() {
 
 
   return (
-    <div className="App" style={{ backgroundColor: '#000', height, width }}>
-      {gameState === 'start' && <StartMenu />}
-      {gameState === 'game' && <Game />}
-      {gameState === 'end' && <GameOverScreen />}
+    <div className="App">
+      <body style={{ backgroundColor: '#000', height, width }}>
+        {gameState === 'start' && <StartMenu />}
+        {gameState === 'game' && <Game />}
+        {gameState === 'end' && <GameOverScreen />}
+      </body>
     </div>
   );
 }
