@@ -7,9 +7,6 @@ function StartMenu() {
   const setGameState = useGameStore(state => state.setGameState);
 
   const handleClick = (e: any) => {
-    e.preventDefault();
-
-    // setGameState('game');
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen({
         navigationUI: 'hide'
