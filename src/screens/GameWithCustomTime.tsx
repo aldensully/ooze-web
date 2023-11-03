@@ -3,8 +3,8 @@ import useGameStore from '../stores/useGameStore';
 
 const PLAYER_WIDTH = 25;
 const PLAYER_HEIGHT = 65;
-const OBSTACLE_WIDTH = 25;
-const OBSTACLE_HEIGHT = 30;
+const OBSTACLE_WIDTH = 20;
+const OBSTACLE_HEIGHT = 20;
 const OBSTACLE_SPEED = 50;
 
 type ObstacleType = {
@@ -32,6 +32,7 @@ const GameWithCustomTime = () => {
   const nextObstacleTimeRef = useRef<number>(Date.now() + randomInterval());
   const setGameState = useGameStore(state => state.setGameState);
   const setScore = useGameStore(state => state.setScore);
+  const drawDoubleJump = useRef(false);
   const playerImage = useRef(new Image());
   const oozeMeter = useRef(new Image());
   const oozeSprites = useRef([]);
@@ -142,6 +143,12 @@ const GameWithCustomTime = () => {
       jumpForce.current -= 1;
     }
 
+    if (scoreRef.current > 0 && scoreRef.current % 2000 === 0) {
+      maxJumps.current = 2;
+      drawDoubleJump.current = true;
+    }
+    if (scoreRef.current > 2100) drawDoubleJump.current = false;
+
     return true;
   }
 
@@ -169,12 +176,13 @@ const GameWithCustomTime = () => {
       ctx.drawImage(
         obstacle.sprite,
         obstacle.x - 20, obstacle.y - 20,
-        obstacle.width + 20, obstacle.height + 20
+        obstacle.width + 30, obstacle.height + 30
       );
     });
 
     // Draw score
     ctx.fillStyle = '#FFEB2C';
+    ctx.font = '40px Arial';
     ctx.fillText(`${Math.floor(scoreRef.current / 100)}`, 320, 54);
     ctx.drawImage(
       oozeMeter.current,
@@ -183,6 +191,12 @@ const GameWithCustomTime = () => {
       155,
       30
     );
+
+    if (drawDoubleJump.current) {
+      ctx.fillStyle = '#FFEB2C';
+      ctx.font = '22px Arial';
+      ctx.fillText("DOUBLE JUMP UNLOCKED!", (window.innerWidth / 2 - 150), window.innerHeight / 3);
+    }
   }
 
   function gameLoop(timestamp: number) {
