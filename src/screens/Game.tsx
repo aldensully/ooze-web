@@ -5,8 +5,6 @@ const PLAYER_WIDTH = 25;
 const PLAYER_HEIGHT = 65;
 const OBSTACLE_WIDTH = 25;
 const OBSTACLE_HEIGHT = 30;
-const GRAVITY = 1.6;
-const JUMP_FORCE = -20;
 const OBSTACLE_SPEED = 7;
 
 type ObstacleType = {
@@ -40,6 +38,8 @@ const Game = () => {
   const SCREEN_WIDTH = window.innerWidth;
   const SCREEN_HEIGHT = window.innerHeight;
   const GROUND_Y = SCREEN_HEIGHT * 0.8;
+  const gravity = useRef(1.6);
+  const jumpForce = useRef(-20);
 
   const playerRef = useRef<PlayerType>({
     x: SCREEN_WIDTH / 3 - PLAYER_WIDTH / 2,
@@ -77,7 +77,7 @@ const Game = () => {
 
   const jump = () => {
     if (jumpCount.current < maxJumps.current) {
-      playerRef.current.vy = JUMP_FORCE;
+      playerRef.current.vy = jumpForce.current;
       isJumpingRef.current = true;
       jumpCount.current++;
     }
@@ -97,7 +97,7 @@ const Game = () => {
 
     // Apply gravity only if the player is airborne
     if (playerRef.current.y < GROUND_Y) {
-      playerRef.current.vy += GRAVITY;
+      playerRef.current.vy += gravity.current;
     }
 
     // Update player's Y position
@@ -180,6 +180,8 @@ const Game = () => {
 
     if (scoreRef.current % 300 === 0) {
       speed_multiplier.current += 0.1;
+      gravity.current += 0.1;
+      jumpForce.current -= 1;
     }
 
     // Draw the score
