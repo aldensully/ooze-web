@@ -28,6 +28,7 @@ function StartMenu() {
 
 
   const handleClick = (e: any) => {
+    handlePlayAudio();
     e.preventDefault();
     if (!isLandscape()) {
       setShowStartAlert(false);
@@ -40,7 +41,6 @@ function StartMenu() {
   function handleFullScreen() {
     setShowLandscapeAlert(false);
     setGameState('game');
-    handlePlayAudio();
   }
 
   const handleResize = () => {
