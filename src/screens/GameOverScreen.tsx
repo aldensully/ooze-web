@@ -26,7 +26,7 @@ const GameOverScreen = () => {
     }, 2500);
     const timer3 = setTimeout(() => {
       setShowDrowned(true);
-    }, 500);
+    }, 200);
     const timer4 = setTimeout(() => {
       setShowRestartButton(true);
     }, 4000);
@@ -46,34 +46,34 @@ const GameOverScreen = () => {
     <div style={{ width, height, backgroundColor: '#EBFF00', overflow: 'hidden' }}>
       <img
         onClick={navigateToYouTube}
-        style={{ position: 'absolute', left: 20, top: 30 }}
+        style={{ maxWidth: 300, position: 'absolute', left: 20, top: 30 }}
         src='/alerts/prime-ad.png'
         width={'auto'} height={height * 0.7}
       />
       {showDogs && <img
         onClick={navigateToYouTube}
-        style={{ position: 'absolute', left: '30%', zIndex: 1000, top: 50 }}
+        style={{ maxWidth: 300, position: 'absolute', left: '30%', zIndex: 1000, top: 50 }}
         src='/alerts/dogs.png'
         width={'auto'} height={height * 0.5}
       />
       }
       {showDrowned && <img
         onClick={() => setGameState('game')}
-        style={{ position: 'absolute', right: 0, zIndex: 4600, top: 0 }}
+        style={{ maxWidth: 300, position: 'absolute', right: 0, zIndex: 4600, top: 0 }}
         src='/alerts/start-over-alert.png'
         width={'auto'} height={height * 0.4}
       />
       }
       {showTooMuch && <img
         onClick={() => setGameState('game')}
-        style={{ position: 'absolute', left: 10, zIndex: 1600, bottom: 10 }}
+        style={{ maxWidth: 300, position: 'absolute', left: 10, zIndex: 1600, bottom: 10 }}
         src='/alerts/too-much-ooze.png'
         width={'auto'} height={height * 0.25}
       />
       }
       {showRestartButton && <img
         onClick={() => setGameState('game')}
-        style={{ zIndex: 2000, position: 'absolute', left: '25%', bottom: 30 }}
+        style={{ maxWidth: 300, zIndex: 2000, position: 'absolute', left: '25%', bottom: 30 }}
         src='/alerts/start-over-button.png'
         width={'auto'} height={height * 0.2}
         className="flashing-image" alt="Flashing image"
@@ -81,7 +81,7 @@ const GameOverScreen = () => {
       }
       {showCongrats && <img
         onClick={navigateToYouTube}
-        style={{ zIndex: 2000, position: 'absolute', top: 5, left: 10 }}
+        style={{ maxWidth: 300, zIndex: 2000, position: 'absolute', top: 5, left: 10 }}
         src='/alerts/congrats.png'
         width={'auto'} height={height * 0.3}
         className="flashing-image-2" alt="Flashing image"
@@ -120,7 +120,7 @@ function WatchScreenPopups() {
         <img
           onClick={navigateToYouTube}
           key={'image' + i}
-          style={{ position: 'absolute', left: 20 * i, top: 20 * i }}
+          style={{ maxWidth: 300, position: 'absolute', left: 20 * i, top: 20 * i }}
           src={img}
           width={'auto'} height={window.innerHeight * 0.7}
         />

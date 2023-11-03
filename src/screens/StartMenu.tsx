@@ -13,7 +13,6 @@ function StartMenu() {
     return window.innerWidth > window.innerHeight;
   }
 
-
   const handleClick = (e: any) => {
     e.preventDefault();
     if (!isLandscape()) {
@@ -26,16 +25,6 @@ function StartMenu() {
 
   function handleFullScreen() {
     setShowLandscapeAlert(false);
-    // document.body.requestFullscreen({
-    //   navigationUI: 'hide'
-    // }).catch((e) => {
-    //   alert(`Error attempting to enable full-screen mode: ${e.message} (${e.name})`);
-    // })
-    //   .then(() => {
-    //     setTimeout(() => {
-    //       setGameState('game');
-    //     }, 500);
-    //   });
     setGameState('game');
   }
 
@@ -51,10 +40,8 @@ function StartMenu() {
 
   useEffect(() => {
     window.addEventListener('resize', handleResize);
-    // document.addEventListener('fullscreenchange', handleResize);
     return () => {
       window.removeEventListener('resize', handleResize);
-      // document.removeEventListener('fullscreenchange', handleResize);
     };
   }, []);
 
@@ -62,15 +49,8 @@ function StartMenu() {
   return (
     <div style={{ width, height, backgroundColor: '#000' }}>
       <div style={{ display: 'flex', flexDirection: 'column', flex: 1, height: '100%', alignItems: 'center', justifyContent: 'center' }}>
-        {showLandscapeAlert && <img src='/alerts/rotate-alert.png' width={'90%'} height={160} />}
-        {showStartAlert && <img onClick={handleClick} src='/alerts/ooze-start-alert.png' width={'90%'} height={220} />}
-        {/* <p style={{ color: '#fff', fontSize: 32 }}>Ooze</p> */}
-        {/* <button
-          onClick={handleClick}
-          style={{ fontSize: 20, color: 'white', height: 50, width: 100, backgroundColor: 'gray', borderWidth: 0, fontWeight: 'bolder' }}
-        >
-          START
-        </button> */}
+        {showLandscapeAlert && <img src='/alerts/rotate-alert.png' style={{ maxWidth: 350 }} width={'90%'} height={160} />}
+        {showStartAlert && <img onClick={handleClick} src='/alerts/ooze-start-alert.png' style={{ maxWidth: 350 }} width={'90%'} height={220} />}
       </div>
     </div>
   );

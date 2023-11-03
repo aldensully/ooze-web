@@ -33,6 +33,7 @@ const GameWithCustomTime = () => {
   const setGameState = useGameStore(state => state.setGameState);
   const setScore = useGameStore(state => state.setScore);
   const playerImage = useRef(new Image());
+  const oozeMeter = useRef(new Image());
   const oozeSprites = useRef([]);
   oozeSprites.current = [
     '/sprites/double-ooze.png',
@@ -172,8 +173,15 @@ const GameWithCustomTime = () => {
     });
 
     // Draw score
-    ctx.fillStyle = 'white';
-    ctx.fillText(`Score: ${Math.floor(scoreRef.current / 100)}`, 120, 30);
+    ctx.fillStyle = '#FFEB2C';
+    ctx.fillText(`${Math.floor(scoreRef.current / 100)}`, 320, 55);
+    ctx.drawImage(
+      oozeMeter.current,
+      160,
+      25,
+      155,
+      30
+    );
   }
 
   function gameLoop(timestamp: number) {
@@ -202,7 +210,7 @@ const GameWithCustomTime = () => {
     window.cancelAnimationFrame(animationFrameRef.current);
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
-    ctx.font = '30px Arial';
+    ctx.font = '45px Arial';
   }
 
   function initializeScene() {
@@ -212,6 +220,7 @@ const GameWithCustomTime = () => {
     const ctx = canvas.getContext('2d');
     ctx.font = '30px Arial';
     playerImage.current.src = '/sprites/dude.png';
+    oozeMeter.current.src = '/sprites/ooze-meter.png';
   }
 
   function resizeCanvas() {
@@ -235,10 +244,16 @@ const GameWithCustomTime = () => {
     resetGame(); // Setup game state
     animationFrameRef.current = requestAnimationFrame(gameLoop); // Start the loop
     window.addEventListener('touchstart', jump);
-
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (event.code === 'Space') { // 'Space' is the code for the spacebar
+        jump();
+      }
+    };
+    window.addEventListener('keydown', handleKeyPress);
     return () => {
       window.cancelAnimationFrame(animationFrameRef.current);
       window.removeEventListener('touchstart', jump);
+      window.removeEventListener('keydown', handleKeyPress);
     };
   }, []);
 
