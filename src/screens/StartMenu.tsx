@@ -26,9 +26,7 @@ function StartMenu() {
 
   function handleFullScreen() {
     setShowLandscapeAlert(false);
-    document.body.requestFullscreen({
-      navigationUI: 'hide'
-    }).catch((e) => {
+    document.body.requestFullscreen().catch((e) => {
       alert(`Error attempting to enable full-screen mode: ${e.message} (${e.name})`);
     })
       .then(() => {
