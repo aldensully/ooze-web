@@ -38,19 +38,19 @@ function StartMenu() {
   const handleResize = () => {
     setWidth(window.innerWidth);
     setHeight(window.innerHeight);
-    // if (isLandscape()) {
-    //   handleFullScreen();
-    // } else {
-    //   console.log('Device is in portrait mode');
-    // }
+    if (isLandscape()) {
+      handleFullScreen();
+    } else {
+      console.log('Device is in portrait mode');
+    }
   };
 
   useEffect(() => {
     window.addEventListener('resize', handleResize);
-    document.addEventListener('fullscreenchange', handleResize);
+    // document.addEventListener('fullscreenchange', handleResize);
     return () => {
       window.removeEventListener('resize', handleResize);
-      document.removeEventListener('fullscreenchange', handleResize);
+      // document.removeEventListener('fullscreenchange', handleResize);
     };
   }, []);
 
