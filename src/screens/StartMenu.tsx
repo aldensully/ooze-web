@@ -9,22 +9,22 @@ function StartMenu() {
   const handleClick = (e: any) => {
     e.preventDefault();
 
-    setGameState('game');
-    // if (!document.fullscreenElement) {
-    //   document.documentElement.requestFullscreen({
-    //     navigationUI: 'hide'
-    //   }).catch((e) => {
-    //     alert(`Error attempting to enable full-screen mode: ${e.message} (${e.name})`);
-    //   })
-    //     .then(() => {
-    //       setGameState('game');
-    //     });
+    // setGameState('game');
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen({
+        navigationUI: 'hide'
+      }).catch((e) => {
+        alert(`Error attempting to enable full-screen mode: ${e.message} (${e.name})`);
+      })
+        .then(() => {
+          setGameState('game');
+        });
 
-    // } else {
-    //   if (document.exitFullscreen) {
-    //     document.exitFullscreen();
-    //   }
-    // }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    }
   };
 
   return (
