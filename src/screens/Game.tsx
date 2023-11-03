@@ -208,6 +208,21 @@ const Game = () => {
     bg1Image.current.src = '/sprites/ooze-bg-far.png';
   }
 
+  function resizeCanvas() {
+    canvasRef.current.width = screen.width;
+    canvasRef.current.height = screen.height;
+  }
+
+  useEffect(() => {
+    window.addEventListener('resize', resizeCanvas);
+    document.addEventListener('fullscreenchange', resizeCanvas);
+    return () => {
+      window.removeEventListener('resize', resizeCanvas);
+      document.removeEventListener('fullscreenchange', resizeCanvas);
+    };
+  }, []);
+
+
   useEffect(() => {
     initializeScene();
     animationFrameRef.current = requestAnimationFrame(gameLoop);
