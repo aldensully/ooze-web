@@ -26,21 +26,6 @@ function StartMenu() {
 
   function handleFullScreen() {
     setShowLandscapeAlert(false);
-    var doc = window.document;
-    var docEl = document.body;
-    //doc.documentElement;
-
-    //@ts-ignore
-    var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
-    //@ts-ignore
-    var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
-
-    //@ts-ignore
-    if (!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
-      requestFullScreen.call(docEl);
-    } else {
-      cancelFullScreen.call(doc);
-    }
     // document.body.requestFullscreen({
     //   navigationUI: 'hide'
     // }).catch((e) => {
@@ -51,7 +36,7 @@ function StartMenu() {
     //       setGameState('game');
     //     }, 500);
     //   });
-    // setGameState('game');
+    setGameState('game');
   }
 
   const handleResize = () => {

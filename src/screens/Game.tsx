@@ -253,6 +253,24 @@ const Game = () => {
     };
   }, []);
 
-  return <canvas ref={canvasRef} width={window.innerWidth} height={window.innerHeight} />;
+  const requestFullScreen = () => {
+    document.getElementById('canvas').requestFullscreen({
+      navigationUI: 'hide'
+    }).catch((e) => {
+      alert(`Error attempting to enable full-screen mode: ${e.message} (${e.name})`);
+    })
+      .then(() => {
+        setTimeout(() => {
+          setGameState('game');
+        }, 500);
+      });
+  };
+
+  return <div style={{ flex: 1, backgroundColor: 'red', display: 'flex', width: window.innerWidth, height: window.innerHeight }}>
+    <button onClick={requestFullScreen} style={{ position: 'absolute', zIndex: 10000, color: 'white' }}>
+      GO FULL SCREEN
+    </button>
+    <canvas ref={canvasRef} id='canvas' width={window.innerWidth} height={window.innerHeight} />;
+  </div>;
 };
 export default Game;
