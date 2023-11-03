@@ -5,8 +5,8 @@ const PLAYER_WIDTH = 25;
 const PLAYER_HEIGHT = 65;
 const OBSTACLE_WIDTH = 25;
 const OBSTACLE_HEIGHT = 30;
-const GRAVITY = 1.2;
-const JUMP_FORCE = -18;
+const GRAVITY = 1.8;
+const JUMP_FORCE = -20;
 const OBSTACLE_SPEED = 7;
 
 type ObstacleType = {
@@ -32,13 +32,14 @@ const Game = () => {
   const speed_multiplier = useRef(1);
   const nextObstacleTimeRef = useRef<number>(Date.now() + randomInterval());
   const setGameState = useGameStore(state => state.setGameState);
+  const setScore = useGameStore(state => state.setScore);
   const playerImage = useRef(new Image());
   const oozeImage = useRef(new Image());
   const bg1Image = useRef(new Image());
   const bg2Image = useRef(new Image());
   const SCREEN_WIDTH = window.innerWidth;
   const SCREEN_HEIGHT = window.innerHeight;
-  const GROUND_Y = SCREEN_HEIGHT - 100;
+  const GROUND_Y = SCREEN_HEIGHT * 0.8;
 
   const playerRef = useRef<PlayerType>({
     x: SCREEN_WIDTH / 3 - PLAYER_WIDTH / 2,
@@ -134,10 +135,11 @@ const Game = () => {
       // ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
       ctx.drawImage(
         oozeImage.current,  // The image element
-        obstacle.x, obstacle.y, obstacle.width + 20, obstacle.height + 20
+        obstacle.x - 20, obstacle.y - 20, obstacle.width + 20, obstacle.height + 20
       );
       if (checkCollision(playerRef.current, obstacle)) {
         setGameState('end');
+        setScore(Math.floor(scoreRef.current / 100));
         window.cancelAnimationFrame(animationFrameRef.current);
         return;
       }
@@ -182,7 +184,8 @@ const Game = () => {
 
     // Draw the score
     ctx.fillStyle = 'white';
-    ctx.fillText(`Score: ${scoreRef.current}`, 15, 30);
+    const score = Math.floor(scoreRef.current / 100);
+    ctx.fillText(`Score: ${score}`, 15, 30);
 
     // Continue the game loop
     animationFrameRef.current = requestAnimationFrame(gameLoop);
@@ -206,7 +209,7 @@ const Game = () => {
     const canvas = canvasRef.current;
     canvas.style.background = '#000000';
     const ctx = canvas.getContext('2d');
-    ctx.font = '20px Arial';
+    ctx.font = '30px Arial';
 
     playerImage.current.src = '/sprites/dude.png';
     oozeImage.current.src = '/sprites/poop-ooze.png';
