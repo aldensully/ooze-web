@@ -1,18 +1,23 @@
 import './styles/App.css';
 import Game from './screens/Game';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import StartMenu from './screens/StartMenu';
 import GameOverScreen from './screens/GameOverScreen';
 import useGameStore from './stores/useGameStore';
 
 function App() {
   const gameState = useGameStore(state => state.gameState);
+  const [height, setHeight] = useState(window.innerHeight);
+  const [width, setWidth] = useState(window.innerWidth);
 
   const handleOrientation = () => {
     const isLandscape = window.innerWidth > window.innerHeight;
     if (!isLandscape) {
-      alert('Please rotate your device to landscape mode to play the game.');
     }
+    const h = window.innerHeight;
+    const w = window.innerWidth;
+    setWidth(w);
+    setHeight(h);
   };
 
   useEffect(() => {
@@ -24,8 +29,6 @@ function App() {
     };
   }, []);
 
-  const height = window.innerHeight;
-  const width = window.innerWidth;
 
   return (
     <div className="App" style={{ backgroundColor: '#000', height, width }}>
