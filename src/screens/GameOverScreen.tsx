@@ -1,10 +1,10 @@
 import useGameStore from '../stores/useGameStore';
 
-const width = window.innerWidth;
-const height = window.innerHeight;
 
 const GameOverScreen = () => {
   const setGameState = useGameStore(state => state.setGameState);
+  const width = window.innerWidth;
+  const height = window.innerHeight;
 
   return (
     <div style={{ width, height, backgroundColor: '#EBFF00' }}>
